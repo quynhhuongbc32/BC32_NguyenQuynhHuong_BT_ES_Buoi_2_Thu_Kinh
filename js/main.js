@@ -10,3 +10,57 @@ let dataGlasses = [
     { id: "G9", src: "./img/g9.jpg", virtualImg: "./img/v9.png", brand: "Coarch", name: "MIDNIGHT VIXEN REMIX", color: "Blue, Black", price: 120, description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit consequatur soluta ad aut laborum amet." }
 ];
 
+let choosedGlasses = 0;
+
+display(dataGlasses);
+
+function display(data) {
+    let output = data.reduce((result, item) => {
+        return (
+            result +
+            `
+                <div class="vglasses__items" style="background-image: url('${item.src}');" onclick="chooseGlasses('${item.id}')"></div>
+            `
+        );
+    }, "");
+
+    dom("#vglassesList").innerHTML = output;
+}
+
+function chooseGlasses(id) {
+    choosedGlasses = 1;
+    const glasses = dataGlasses.filter ( (item) => {
+        return item.id == id
+    })[0];
+
+    const virtualImg = `<img src="${glasses.virtualImg}" alt="">`;
+    dom("#avatar").innerHTML = virtualImg;
+    
+    const glassesInfo = `
+        <p class="brand">${glasses.brand} (${glasses.color})</p>
+        <p class="price">${glasses.price}$</p> <span class="stocking">Socking</span>
+        <p class="description">
+            ${glasses.description} 
+        </p>
+    `;
+
+    dom("#glassesInfo").innerHTML = glassesInfo;
+
+    dom("#glassesInfo").style.display = "block";
+}
+
+function removeGlasses(type) {
+    if(choosedGlasses == 0) {
+        alert('Bạn chưa chọn kính, vui lòng chọn kính!');
+    }
+    if(type == true) {
+        dom("#avatar img").style.display = "block";
+    } else if(type == false) {
+        dom("#avatar img").style.display = "none";
+    }
+}
+
+// =================== helper ========================
+function dom(selector) {
+    return document.querySelector(selector);
+}
